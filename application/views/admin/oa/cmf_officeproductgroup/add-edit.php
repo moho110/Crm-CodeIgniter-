@@ -1,0 +1,49 @@
+<?php
+$this->load->view(__ADMIN_TEMPLATE__ . "/common_header");
+?>
+<div class="container">
+    <div class="col-xs-12">
+    <?php 
+        if(!empty($success_msg)){
+            echo '<div class="alert alert-success">'.$success_msg.'</div>';
+        }elseif(!empty($error_msg)){
+            echo '<div class="alert alert-danger">'.$error_msg.'</div>';
+        }
+    ?>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><?php echo $action; ?> 办公用品分类 <a href="<?php echo site_url('/oa/CmfOfficeproductgroup/'); ?>" class="glyphicon glyphicon-arrow-left pull-right"></a></div>
+                <div class="panel-body">
+                    <form method="post" action="" class="form">
+                        <div class="form-group">
+                            <label for="ID">编号：</label>
+                            <input type="text" class="form-control" name="ID" placeholder="Enter ID" value="<?php echo !empty($cmf_officeproductgroup['ID'])?$cmf_officeproductgroup['ID']:''; ?>">
+                            <?php echo form_error('ID','<p class="help-block text-danger">','</p>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="Name">名称：</label>
+                            <input type="text" class="form-control" name="Name" placeholder="Enter Name" value="<?php echo !empty($cmf_officeproductgroup['Name'])?$cmf_officeproductgroup['Name']:''; ?>">
+                            <?php echo form_error('Name','<p class="help-block text-danger">','</p>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="sort">排序：</label>
+                            <input type="text" class="form-control" name="sort" placeholder="Enter sort" value="<?php echo !empty($cmf_officeproductgroup['sort'])?$cmf_officeproductgroup['sort']:''; ?>">
+                            <?php echo form_error('sort','<p class="help-block text-danger">','</p>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="preClassType">分类类型：</label>
+                            <input type="text" class="form-control" name="preClassType" placeholder="Enter preClassType" value="<?php echo !empty($cmf_officeproductgroup['preClassType'])?$cmf_officeproductgroup['preClassType']:''; ?>">
+                            <?php echo form_error('preClassType','<p class="help-block text-danger">','</p>'); ?>
+                        </div>
+                        <input type="submit" name="postSubmit" class="btn btn-primary" value="提交"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+$this->load->view(__ADMIN_TEMPLATE__ . "/common_footer");
+?>

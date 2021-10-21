@@ -1,0 +1,44 @@
+<?php
+$this->load->view(__ADMIN_TEMPLATE__ . "/common_header");
+?>
+<div class="container">
+    <div class="col-xs-12">
+    <?php 
+        if(!empty($success_msg)){
+            echo '<div class="alert alert-success">'.$success_msg.'</div>';
+        }elseif(!empty($error_msg)){
+            echo '<div class="alert alert-danger">'.$error_msg.'</div>';
+        }
+    ?>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><?php echo $action; ?> 费用分类 <a href="<?php echo site_url('/oa/CmfFeiyongclass/'); ?>" class="glyphicon glyphicon-arrow-left pull-right"></a></div>
+                <div class="panel-body">
+                    <form method="post" action="" class="form">
+                        <div class="form-group">
+                            <label for="id">编号：</label>
+                            <input type="text" class="form-control" name="id" placeholder="Enter id" value="<?php echo !empty($cmf_feiyongclass['id'])?$cmf_feiyongclass['id']:''; ?>">
+                            <?php echo form_error('id','<p class="help-block text-danger">','</p>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="classname">类别名称：</label>
+                            <input type="text" class="form-control" name="classname" placeholder="Enter classname" value="<?php echo !empty($cmf_feiyongclass['classname'])?$cmf_feiyongclass['classname']:''; ?>">
+                            <?php echo form_error('classname','<p class="help-block text-danger">','</p>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="kind">种类：</label>
+                            <input type="text" class="form-control" name="kind" placeholder="Enter kind" value="<?php echo !empty($cmf_feiyongclass['kind'])?$cmf_feiyongclass['kind']:''; ?>">
+                            <?php echo form_error('kind','<p class="help-block text-danger">','</p>'); ?>
+                        </div>
+                        <input type="submit" name="postSubmit" class="btn btn-primary" value="提交"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+$this->load->view(__ADMIN_TEMPLATE__ . "/common_footer");
+?>

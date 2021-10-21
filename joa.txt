@@ -1,0 +1,427 @@
+<label>支付类型：</label>
+<p>
+                        <?php if ($CmfProducttype['user_flag'] == '1') {?>
+                            保留
+                        <?php } elseif ($CmfProducttype['user_flag'] == '0') {?>
+                            删除
+                        <?php } else {?>
+                            其他类型
+                        <?php } ?>
+                    </p>
+
+<p>
+                        <?php if ($CmfCustomsRankingList['paytype'] == '1') {?>
+                            微信支付
+                        <?php } elseif ($CmfCustomsRankingList['paytype'] == '2') {?>
+                            支付宝
+                        <?php } elseif ($CmfCustomsRankingList['paytype'] == '3') {?>
+                            现金支付
+                        <?php } elseif ($CmfCustomsRankingList['paytype'] == '4') {?>
+                            信用卡
+                        <?php } elseif ($CmfCustomsRankingList['paytype'] == '5') {?>
+                            借记卡
+                        <?php } elseif ($CmfCustomsRankingList['paytype'] == '6') {?>
+                            线下支付
+                        <?php } else {?>
+                            其他类型
+                        <?php } ?>
+                    </p>
+您确认删除吗？
+
+/*
+	 * 获取搜索选项并分页
+	 */
+	function getSearchPage($limit,$start,$searchvalue,$keyword) {
+		$this->db->select('*');
+		$this->db->from('cmf_sellplanmain');
+		$this->db->like($searchvalue,$keyword,'both');
+		$this->db->where("$searchvalue LIKE '%$keyword%'");
+		$this->db->limit($limit,$start);
+		$query = $this->db->get();
+		$rows = $query->result();
+		return $rows;
+	}
+
+<form action="<?php echo site_url('oa/CmfFukuanplan/search'); ?>" method="post">
+        <select name="searchvalue">
+            <option value="">请选择</option>
+            <option value="supplyid">供应商ID</option>
+            <option value="caigoubillid">采购清单ID</option>
+            <option value="jine">金额</option>
+            <option value="createman">创建人</option>
+            <option value="qici">期次</option>
+        </select>
+            <input type="text" name="keyword">
+            <input type="submit" name="postSubmit" value="搜索"/>
+        </form>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <form action="<?php echo site_url('oa/CmfAccesstype/search'); ?>" method="post">
+        <select name="searchvalue">
+            <option value="">请选择</option>
+            <option value="jine">预付金额</option>
+            <option value="createman">创建人</option>
+            <option value="supplyid">供应商ID</option>
+        </select>
+            <input type="text" name="keyword">
+            <input type="submit" name="postSubmit" value="搜索"/>
+        </form>
+    </div>
+</div>
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+select id as 编号,createman as 创建人,jine as 金额 from cmf_accessprepay WHERE createman like '%v%' and jine>=20
+select id as 编号,createman as 创建人,jine as 金额 from cmf_accessprepay WHERE createman like '%v%' and jine<20
+
+/**
+	 * 获取搜索选项
+	 */
+	function getSearch($searchvalue,$keyword) {
+		$this->db->select('*');
+		$this->db->from('cmf_workplanmain_detail');
+		$this->db->like($searchvalue,$keyword,'both');
+		$this->db->where("$searchvalue LIKE '%$keyword%'");
+		$query = $this->db->get();
+		$rows = $query->result();
+		return $rows;
+	}
+
+
+/////////////////////////////////////////////////////////////////////////
+/**
+     * 搜索内容
+     */
+    public function search() {
+        $data = array();
+        //获取session消息
+        if($this->session->userdata('success_msg')){
+            $data['success_msg'] = $this->session->userdata('success_msg');
+            $this->session->unset_userdata('success_msg');
+        }
+        if($this->session->userdata('error_msg')){
+            $data['error_msg'] = $this->session->userdata('error_msg');
+            $this->session->unset_userdata('error_msg');
+        }
+
+        $searchvalue              = $this->input->post('searchvalue');
+        $keyword                  = $this->input->post('keyword');
+        $data['searchvalue']      = $searchvalue;
+
+        if(!empty($searchvalue) and !empty($keyword)) {
+            $data['CmfHuikuanplan'] = $this->CmfHuikuanplanModel->getSearch($searchvalue,$keyword);
+            $this->load->view(__ADMIN_TEMPLATE__. "/oa/cmf_huikuanplan/search-result",$data);
+        } else {
+            redirect('/oa/CmfHuikuanplan/index');
+        }
+    }
+
+http://127.0.0.1/index.php/iw/oa/CmfShoururecord/index
+http://127.0.0.1/index.php/oa/CmfSystemInterface/index
+
+SELECT name,colorvalue FROM `cmf_productcolor` where colorvalue like "%00%"
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <form action="<?php echo site_url('oa/CmfEmail/find'); ?>" method="get" name="find">
+            <select name="">
+                <option value="">编号</option>
+            </select>
+            <input type="text" name="findstr">
+            <input type="submit" name="postSubmit" value="查找"/>
+            <select>
+                <option value="">请选择发送人[所有记录]</option>
+            </select>
+        </form>
+    </div>
+</div>
+
+<input type="radio" name="sex" value="1">男
+<input type="radio" name="sex" value="0">女
+
+<?php
+	$sec_qryc=$this->db->select('*')->from('Table Name')->where("username LIKE '%$user_search_name%'")->get()->result();
+	return $sec_qryc;
+?>
+
+Y年m月d日H时i分s秒
+
+<p><?php echo date('Y年m月d日H时i分s秒', strtotime($CmfCallchuli['createtime'])); ?></p>
+
+<input readonly class="form-control" type="text" id="date-group1-4" placeholder="YYYY-MM-DD hh:mm" name="aaaaa">
+
+cmf_sellplanmain cmf_customer cmf_kaipiaostate cmf_sellbilltype
+
+select 
+cc.ROWID,cc.user_id,cc.supplyid,cc.certificatetype,cc.certificateno,
+cc.certificateinfo,cc.fromdate,cc.enddate,cc.explianstr,cc.user_flag,
+cc.fileaddress,cs.supplyname 
+from cmf_certificate as cc 
+left outer join cmf_supply as cs on cs.ROWID=cc.ROWID
+
+select 
+cs.billid,cs.zhuti,cs.supplyid,cs.chanceid,cs.sellplanno,cs.totalmoney,
+cs.paytype,cs.huikuanjine,cs.fahuojine,cs.kaipiaojine,cs.plandate,
+cs.qianyueren,cs.user_flag,cs.fahuostate,cs.linkman,cs.mobile,cs.createtime,
+cc.id,cc.supplyid,cc.supplyname,ck.id,ck.name,csb.id,csb.name 
+from cmf_sellplanmain as cs 
+left outer join cmf_customer as cc on cc.id=cs.billid 
+left outer join cmf_kaipiaostate as ck on ck.id=cs.billid 
+left outer join cmf_sellbilltype as csb on csb.id=cs.billid where cs.billid=1
+
+
+cmf_stockinmain 
+cmf_stockinmain_detail
+cmf_stockoutmain
+cmf_stockoutmain_detail
+cmf_storecheck
+cmf_storecheck_detail
+cmf_stockchangemain
+cmf_stockchangemain_detail
+cmf_productzuzhuang
+cmf_productzuzhuang_detail
+cmf_product
+
+select 
+stockin.billid,stockin.indate,stockin.instoreshenhe,stockin.intype,
+stockindetail.prodname,stockindetail.prodguige,stockindetail.price,
+stockout.billid,stockout.outdate,stockoutdetail.lirun,storecheck.billid,
+storecheck.state,storecheckdetail.id,storecheckdetail.oldprodid,storecheckdetail.opertype,
+stockchange.billid,stockchange.outstoreshenhe,stockchange.instoreshenhe,stockchangedetail.id,
+stockchangedetail.jine,cpzz.billid,cpzz.totalmoney,cpzzdetail.id,cpzzdetail.price,cpzzdetail.jine,
+product.productid,product.sellprice,product.ifkucun,product.productname 
+from cmf_product as product 
+left outer join cmf_stockinmain as stockin on stockin.billid=product.productid 
+left outer join cmf_stockinmain_detail as stockindetail on stockindetail.id=product.productid 
+left outer join cmf_stockoutmain as stockout on stockout.billid=product.productid 
+left outer join cmf_stockoutmain_detail as stockoutdetail on stockoutdetail.id=product.productid 
+left outer join cmf_storecheck as storecheck on storecheck.billid=product.productid 
+left outer join cmf_storecheck_detail as storecheckdetail on storecheckdetail.id=product.productid 
+left outer join cmf_stockchangemain as stockchange on stockchange.billid=product.productid 
+left outer join cmf_stockchangemain_detail as stockchangedetail on stockchangedetail.id=product.productid 
+left outer join cmf_productzuzhuang as cpzz on cpzz.billid=product.productid 
+left outer join cmf_productzuzhuang_detail as cpzzdetail on cpzzdetail.id=product.productid
+
+
+//供应商供货汇总
+
+select 
+cb.billid,cb.zhuti,cb.supplyid,cb.linkman,cb.caigoudate,
+cb.danhao,cb.totalmoney,cs.ROWID,cs.supplyname,cs.phone,
+cbd.id,cbd.prodname,cbd.prodguige,cbd.prodxinghao,cbd.price,
+cbd.proddanwei,cbd.opertype 
+from cmf_buyplanmain as cb 
+left outer join cmf_supply as cs on cs.ROWID=cb.billid 
+left outer join cmf_buyplanmain_detail as cbd on cbd.id=cs.ROWID where cb.billid=1;
+
+///////////////////////////////////////////////////////////////////
+我的办公桌
+	我的桌面 cmf_crm_mytable
+	日程安排 cmf_calendar
+	工作任务 
+		任务安排 cmf_workplanmain
+		任务执行 cmf_workplanmain_detail
+	工作报告 cmf_workreport
+	发送邮件 cmf_email
+	手机短信 cmf_sms_sendlist
+	来电处理 cmf_callchuli
+	公告通知 cmf_notify
+	个人参数配置 cmf_my_config
+系统管理
+	组织机构设置
+		单位管理 cmf_unit
+		部门管理 cmf_department
+	界面标题栏 cmf_system_interface
+	系统参数设置 cmf_sys_config
+	系统授权信息 cmf_system_infor
+	系统语言设定 cmf_systemlang
+	系统日志管理 cmf_system_log
+基础数据
+	商品管理
+		商品颜色 cmf_productcolor
+		计量单位 cmf_measure
+		商品类型管理 mf_producttype
+		商品组装单明细 cmf_productzuzhuang_detail
+	财务类型
+		银行帐号管理 cmf_bank
+		费用支出大类 cmf_feiyongclass
+		费用支出子类 cmf_feiyongtype
+////////////////////////////////////////////////////////////
+	企业类型
+		供应商等级        cmf_supplylever
+		客户等级          cmf_customerlever
+		经济类型          cmf_unitprop
+		隶属行业          cmf_property
+		销售方式          cmf_salemode
+		客户来源          cmf_customerorigin
+		地域设置          cmf_customerarea
+		证照类型设置      cmf_certificatetype
+		客户自定义类型    cmf_customerdefinetype
+	仓库管理  cmf_stockbease
+	发货方式  cmf_fahuotype
+	销售阶段  cmf_crm_jieduan
+	服务类型  cmf_crm_dict_servicetypes
+////////////////////////////////////////////////////////////
+供应商管理
+	供应商 cmf_supply
+	供应商联系人 cmf_supplylinkman
+	供应商报价管理 cmf_supplyproduct
+	证照情况 cmf_certificate
+
+客户管理
+	客户基本信息 cmf_customer
+	客户联系人 cmf_linkman
+	纪念日 cmf_crm_remember
+	报销申请 cmf_crm_feiyong_sq
+	客户服务 cmf_crm_service
+	客户移交 cmf_crm_customer_move
+
+采购管理
+	采购单 cmf_buyplanmain
+	采购明细 cmf_buyplanmain_detail
+
+库存管理
+	库存初始化 cmf_store_init
+	库存清单 cmf_store
+	入库单 cmf_stockinmain
+	入库明细 cmf_stockinmain_detail
+	出库单 cmf_stockoutmain
+	出库明细 cmf_stockoutmain_detail
+	发货单 cmf_fahuodan
+	库存盘点单 cmf_storecheck
+	库存调拔单 cmf_stockchangemain
+	生产组装单 cmf_productzuzhuang
+
+销售管理
+	销售机会 CmfCrmChance
+	跟踪记录 CmfCrmContact
+	需求与方案 CmfCustomerXuqiu
+	竞争产品 CmfCompeteproduct
+	产品报价 CmfCustomerproduct
+	合同管理
+		销售合同 CmfSellcontract
+		交付计划 CmfSellJiaofuPlan
+		交付记录 CmfSellcontractRecord
+	订单管理
+		销售订单 CmfSellplanmain
+		订单明细 CmfSellplanmainDetail
+	店面型销售单 CmfSellonemain
+	积分兑换 CmfExchange
+
+财务管理
+	资金注入抽取 cmf_bankzhuru
+	付款管理
+		付款计划 cmf_fukuanplan
+		付款记录 cmf_fukuanrecord
+		收票记录 cmf_shoupiaorecord
+	回款管理
+		回款计划 cmf_huikuanplan
+		回款记录 cmf_huikuanrecord
+		开票记录 cmf_kaipiaorecord
+	收入开支
+		报销单审核 CmfCrmFeiyongSq
+		其他收入单 CmfShoururecord
+		费用支出单 CmfFeiyongrecord
+	预收预付款
+		预付款 CmfAccessprepay
+		预收款 CmfAccesspreshou
+		帐户操作记录 CmfAccessbank
+统计分析
+	应付款汇总 CmfSupplyownmoney
+	应收款汇总 CmfYingshoukuanhuizong
+	销售日报 CmfXiaoshoubaobiao
+	客户排行 CmfCustomsRankingList
+	导购排行 CmfSalsemanRankingList
+	产品销售汇总 CmfChanpinxiaoshouhuizong
+	客户新增走势 CmfKehuxinzengzoushi
+	供应商供货汇总 CmfGongyingshanggonghuohuizong
+	产品采购汇总 CmfChanpincaigouhuizong
+	采购员采购汇总 CmfCaigouyuanhuizong
+	地域对比 CmfDiquduibi
+	部门对比 CmfBumenduibi
+	月度销售走势图 CmfYueduxiaoshouzoushi
+	月度费用开支走势图 CmfYuedukaizhizoushi
+	退货汇总 CmfTuihuohuizong
+	产品流动表 CmfChanpinliudong
+	毛利汇总 CmfMaolihuizong
+	销售漏斗统计表 CmfXiaoshouloudou
+	月度利润走势图 CmfYuedulirunzoushi
+	库存报警 CmfKucunbaojing
+	应开票汇总 CmfYingkaipiaohuizong
+
+人力资源
+	行政考勤
+		使用说明 CmfFlowGraphXingZhengKaoqin
+		考勤组别 CmfEduXingZhengGroup
+		考勤班次 CmfEduXingZhengBanci
+		考勤排班 CmfEduXingZhengPaiban
+		原始打卡数据 CmfEduXingZhengDetails
+		考勤数据明细 CmfEduXingZhengKaoqinMingxi
+		考勤数据统计 CmfEduXingZhengKaoqinStatic
+		考勤流程明细 CmfEduXingZhengWorkflow
+		考勤部门级管理 CmfMyBumenXingZheng
+		考勤部门权限设置 CmfIncXingZhengKaoqinPriv
+		我的考勤数据 CmfXingZhengGuanLi
+		初始化数据 CmfEduXingZhengKaoqinMingXiAdminChange
+		如何使用考勤机 CmfXingZhengKaoQinIntro
+		获取考勤机数据 CmfEduXingZhengKaoqinMingXiAutomake
+		
+	人事管理
+		人事档案 CmfHrmsFile
+		奖惩记录 CmfHrmsRewardPunishment
+		调动记录 CmfHrmsTransfer
+		离职记录 CmfHrmsFileLizhi
+		复职记录 CmfHrmsFileFuzhi
+		职称记录 CmfHrmsWorkerZhicheng
+		证照记录 CmfHrmsWorkerZhengzhao
+		合同记录 CmfHrmsWorkerHetong
+		学习经历 CmfHrmsEducationalexperience
+		工作经历 CmfHrmsWorkexperience
+		劳动技能 CmfHrmsLaboringskill
+		社会关系 CmfHrmsSocialrelation
+	干部测评
+		测评项目管理 CmfEduZhongcengceping
+		人事部门设置 CmfEduZhongcengganweishezhi
+		设置我的自评 CmfEduZhongcengmyZiPing
+		参与干部测评 
+		查看我的测评
+		干部测评统计
+		测评内容明细 CmfEduZhongcengmingxi
+		测评项目设置 CmfEduZhongcengxingmu
+后勤管理
+	办公用品
+		分类设置 cmf_officeproductgroup
+		仓库设置 cmf_officeproductcangku
+		办公用品清单 cmf_officeproduct
+		借领记录 cmf_officeproductout
+		入库记录 cmf_officeproductin
+		调拨记录 cmf_officeproducttiaoku
+		报废记录 cmf_officeproductbaofei
+	固定资产
+		全权限管理 cmf_fixedasset
+		资产管理员 cmf_fixedasset_admin
+		部门级管理 cmf_fixedasset_dep
+		操作明细 cmf_admin_fixedasset
+		部门总括 
+		部门明细统计
+		按批次统计
+		已报废资产 cmf_fixedasset_baofei
+		分类设置 cmf_fixedassetgroup
+		部门权限管理 cmf_inc_fixedasset_priv
+		
+
+
+
+
+查看 view
+新增 add
+删除 delete
+编辑 edit
+
+http://127.0.0.1/index.php/oa/CmfSystemlang/index
+
+
+	cmf_accessbank
+	cmf_accessprepay
+	cmf_accesspreshou
